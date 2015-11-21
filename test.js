@@ -132,7 +132,7 @@ describe('node-cache', function() {
       cache.put('key', 'value');
       expect(cache.get('key')).to.equal('value');
       expect(cache.del('key')).to.be.true;
-      expect(cache.get('key')).to.be.null;
+      expect(cache.get('key')).to.be.undefined;
     });
 
     it('should decrement the cache size by 1', function() {
@@ -150,7 +150,7 @@ describe('node-cache', function() {
       expect(cache.get('key2')).to.equal('value2');
       expect(cache.get('key3')).to.equal('value3');
       cache.del('key1');
-      expect(cache.get('key1')).to.be.null;
+      expect(cache.get('key1')).to.be.undefined;
       expect(cache.get('key2')).to.equal('value2');
       expect(cache.get('key3')).to.equal('value3');
     });
@@ -170,11 +170,11 @@ describe('node-cache', function() {
       cache.put('key', 'value');
       expect(cache.get('key')).to.equal('value');
       cache.del('key');
-      expect(cache.get('key')).to.be.null;
+      expect(cache.get('key')).to.be.undefined;
       cache.put('key', 'value');
       expect(cache.get('key')).to.equal('value');
       cache.del('key');
-      expect(cache.get('key')).to.be.null;
+      expect(cache.get('key')).to.be.undefined;
     });
 
     it('should return true given an non-expired key', function() {
@@ -226,9 +226,9 @@ describe('node-cache', function() {
       expect(cache.get('key2')).to.equal('value2');
       expect(cache.get('key3')).to.equal('value3');
       cache.clear();
-      expect(cache.get('key1')).to.be.null;
-      expect(cache.get('key2')).to.be.null;
-      expect(cache.get('key3')).to.be.null;
+      expect(cache.get('key1')).to.be.undefined;
+      expect(cache.get('key2')).to.be.undefined;
+      expect(cache.get('key3')).to.be.undefined;
     });
 
     it('should reset the cache size to 0', function() {
@@ -278,13 +278,13 @@ describe('node-cache', function() {
       cache.debug(false);
     });
 
-    it('should return null given a key for an empty cache', function() {
-      expect(cache.get('miss')).to.be.null;
+    it('should return undefined given a key for an empty cache', function() {
+      expect(cache.get('miss')).to.be.undefined;
     });
 
-    it('should return null given a key not in a non-empty cache', function() {
+    it('should return undefined given a key not in a non-empty cache', function() {
       cache.put('key', 'value');
-      expect(cache.get('miss')).to.be.null;
+      expect(cache.get('miss')).to.be.undefined;
     });
 
     it('should return the corresponding value of a key in the cache', function() {
@@ -329,25 +329,30 @@ describe('node-cache', function() {
       expect(cache.get('key')).to.equal('value');
     });
 
-    it('should return null given an expired key', function() {
+    it('should return undefined given an expired key', function() {
       cache.put('key', 'value', 1000);
       clock.tick(1000);
-      expect(cache.get('key')).to.be.null;
+      expect(cache.get('key')).to.be.undefined;
     });
 
-    it('should return null given an expired key', function() {
+    it('should return undefined given an expired key', function() {
       cache.put('key', 'value', 1000);
       clock.tick(1000);
-      expect(cache.get('key')).to.be.null;
+      expect(cache.get('key')).to.be.undefined;
     });
 
-    it('should return null given a key which is a property on the Object prototype', function() {
-      expect(cache.get('toString')).to.be.null;
+    it('should return undefined given a key which is a property on the Object prototype', function() {
+      expect(cache.get('toString')).to.be.undefined;
     });
 
     it('should allow reading the value for a key which is a property on the Object prototype', function() {
       cache.put('toString', 'value');
       expect(cache.get('toString')).to.equal('value');
+    });
+
+    it('handle null as a valid cache value', function() {
+      cache.put('key', null);
+      expect(cache.get('key')).to.be.null;
     });
   });
 
