@@ -91,7 +91,7 @@ exports.get = function(key) {
   } else if (debug) {
     missCount++;
   }
-  return null;
+  return undefined;
 };
 
 exports.size = function() {
