@@ -1,5 +1,5 @@
 {
-  "name": "@nulllines/memory-cache",
+  "name": "memory-cache",
   "description": "A simple in-memory cache. put(), get() and del()",
   "author": "Paul Tarjan <npm@paulisageek.com>",
   "contributors": [
